@@ -98,7 +98,7 @@
       }
 
       // 223498 Replace &nbsp; with the valid XML value.
-      $("EditorValue").value = editor.get_html(true).replace("&nbsp;", " ");
+      $("EditorValue").value = editor.get_html(true).replace(/&nbsp;/g, " ");
 
       RemoveInlineScripts();
       scForm.browser.clearEvent(evt);

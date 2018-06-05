@@ -21,7 +21,8 @@ namespace Sitecore.Support.Shell.Applications.ContentEditor.Dialogs.EditHtml.Com
       string text = EditHtmlCommandBase.GetHtml();
       try
       {
-        text = XHtml.Convert(text);
+        // 223220 add temporary root to make HTML a valid XML
+        text = XHtml.Convert($"<root>{text}</root>");
         bool flag;
         try
         {
@@ -41,7 +42,11 @@ namespace Sitecore.Support.Shell.Applications.ContentEditor.Dialogs.EditHtml.Com
         {
           html = XHtml.GetBody(text);
         }
-        EditHtmlCommandBase.SetHtml(html);
+
+        // 223220 remove temporary root
+        string trimmedHtml = html.Remove(html.Length - "\r\n</root>".Length).Remove(0, "<root>".Length);
+        trimmedHtml = trimmedHtml.Replace("\r\n  ", "\r\n").Trim();
+        EditHtmlCommandBase.SetHtml(trimmedHtml);
       }
       catch (Exception ex)
       {

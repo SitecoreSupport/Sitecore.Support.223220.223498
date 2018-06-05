@@ -97,7 +97,8 @@
         editor.set_mode(1); //Set mode to Design
       }
 
-      $("EditorValue").value = editor.get_html(true);
+      // 223498 Replace &nbsp; with the valid XML value.
+      $("EditorValue").value = editor.get_html(true).replace("&nbsp;", " ");
 
       RemoveInlineScripts();
       scForm.browser.clearEvent(evt);
